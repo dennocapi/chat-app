@@ -1,5 +1,7 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
+
 import {
   Bars3BottomLeftIcon,
   ClockIcon,
@@ -12,11 +14,13 @@ const navigation = [
   { name: "Home", href: "/home", icon: HomeIcon, current: true },
   { name: "Exit", href: "/", icon: ClockIcon, current: false },
 ];
-const messages = [
-  { userName: "Dennis", message: "Hello", date: "22:30" },
-  { userName: "Trevor", message: "Hello..", date: "22:30" },
-  { userName: "Dennis", message: "How are you doing?", date: "22:30" },
-];
+
+// const messages = [
+//   { userName: "Dennis", message: "Hello", date: "22:30" },
+//   { userName: "Trevor", message: "Hello..", date: "22:30" },
+//   { userName: "Dennis", message: "How are you doing?", date: "22:30" },
+// ];
+
 const participants = ["Dennis", "Trevor"];
 
 function classNames(...classes) {
@@ -25,6 +29,30 @@ function classNames(...classes) {
 
 export const Home = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.sessionStorage.length === 0) {
+      navigate("/");
+    }
+    setUser(JSON.parse(window.sessionStorage.users)[0].userName);
+  }, []);
+
+  const onSubmit = () => {
+    const newMessage = {
+      userName: user,
+      message: message,
+      date: Date(),
+    };
+
+    messages.push(newMessage);
+    localStorage.setItem("messages", JSON.stringify(messages));
+    setMessage("");
+  };
 
   return (
     <>
@@ -412,7 +440,10 @@ export const Home = () => {
                         defaultValue={""}
                       />
                       <div className="flex p-1 items-center justify-end space-x-4">
-                        <button className="inline-flex items-center justify-center rounded-sm ml-2 border border-transparent bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2">
+                        <button
+                          onClick={onSubmit}
+                          className="inline-flex items-center justify-center rounded-sm ml-2 border border-transparent bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
+                        >
                           Send
                         </button>
                       </div>
