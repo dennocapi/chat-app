@@ -1,4 +1,4 @@
-import { Fragment,useState } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3BottomLeftIcon,
@@ -6,11 +6,18 @@ import {
   HomeIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { ChatBubbleLeftEllipsisIcon } from "@heroicons/react/20/solid";
 
 const navigation = [
   { name: "Home", href: "/home", icon: HomeIcon, current: true },
   { name: "Exit", href: "/", icon: ClockIcon, current: false },
 ];
+const messages = [
+  { userName: "Dennis", message: "Hello", date: "22:30" },
+  { userName: "Trevor", message: "Hello..", date: "22:30" },
+  { userName: "Dennis", message: "How are you doing?", date: "22:30" },
+];
+const participants = ["Dennis", "Trevor"];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -222,6 +229,199 @@ export const Home = () => {
               </div>
             </div>
           </div>
+          <main className="flex-1">
+            <div>
+              <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 xl:grid xl:max-w-5xl xl:grid-cols-3">
+                <div className="xl:col-span-2 xl:border-r xl:border-gray-200 xl:pr-8 ">
+                  <section
+                    aria-labelledby="activity-title"
+                    className="mt-8 xl:mt-10"
+                  >
+                    <div>
+                      <div className="divide-y divide-gray-200">
+                        <div className="pt-6">
+                          {/* Messages feed*/}
+
+                          <div className="flow-root">
+                            <ul role="list" className="pb-16">
+                              {messages.map((message, itemIdx) =>
+                                // todo
+                                message.userName === "Dennis" ? (
+                                  <li key={itemIdx} className="py-2">
+                                    <div className="relative pb-2">
+                                      {itemIdx !== messages.length - 1 ? (
+                                        <span
+                                          className="absolute top-5 right-0 lg:right-5 -ml-px h-full w-0.5 bg-gray-200"
+                                          aria-hidden="true"
+                                        />
+                                      ) : null}
+                                      <div className="relative flex flex-row-reverse items-start space-x-3">
+                                        <div className="relative shrink-0">
+                                          <img
+                                            className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
+                                            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                            alt=""
+                                          />
+
+                                          <span className="absolute -bottom-0.5 -left-1 rounded-tl bg-white px-0.5 py-px">
+                                            <ChatBubbleLeftEllipsisIcon
+                                              className="h-5 w-5 text-gray-400"
+                                              aria-hidden="true"
+                                            />
+                                          </span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <div className="text-sm">
+                                            <div>
+                                              <div
+                                                href="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                                className="font-medium text-gray-900"
+                                              ></div>
+                                              <div className="text-right mr-2">
+                                                {" "}
+                                                {message.userName}
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div className="relative text-md mt-2 p-4 max-w-full mr-2 lg:mr-0 lg:max-w-md rounded-lg min-w-fit text-gray-700 bg-blue-200">
+                                            <div className="pb-2 break-all">
+                                              {message.message}
+                                            </div>
+                                            <div className="absolute text-xs p-1 bottom-0 right-0 text-gray-500 ">
+                                              2230 hrs
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </li>
+                                ) : (
+                                  <li key={itemIdx}>
+                                    <div className="relative pb-2">
+                                      {itemIdx !== messages.length - 1 ? (
+                                        <span
+                                          className="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200"
+                                          aria-hidden="true"
+                                        />
+                                      ) : null}
+                                      <div className="relative flex items-start space-x-3">
+                                        <div className="relative shrink-0">
+                                          <img
+                                            className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
+                                            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                            alt=""
+                                          />
+
+                                          <span className="absolute -bottom-0.5 -right-1 rounded-tl bg-white px-0.5 py-px">
+                                            <ChatBubbleLeftEllipsisIcon
+                                              className="h-5 w-5 text-gray-400"
+                                              aria-hidden="true"
+                                            />
+                                          </span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                          <div className="text-sm">
+                                            <div>
+                                              <div
+                                                href="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                                                className="font-medium text-gray-900"
+                                              ></div>
+                                              <div> {message.userName}</div>
+                                            </div>
+                                          </div>
+                                          <div className="relative text-md mt-2 p-4 max-w-full mr-2 lg:mr-0 lg:max-w-md rounded-lg min-w-fit text-gray-700 bg-gray-200">
+                                            <div className="pb-2 break-all">
+                                              {message.message}
+                                            </div>
+                                            <div className="absolute text-xs p-1 bottom-0 right-0 text-gray-500 ">
+                                              2230 hrs
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+
+                <aside className="hidden xl:block xl:pl-8">
+                  <h2 className="sr-only">Group participants</h2>
+                  <div className=" space-y-8 border-t border-gray-200 py-6">
+                    <div className="fixed">
+                      <h2 className="text-sm font-medium text-gray-900">
+                        Group participants ({participants.length})
+                      </h2>
+                      <ul role="list" className="mt-3 space-y-3">
+                        {participants.map((participant) => (
+                          <li className="flex justify-start">
+                            <a href="/" className="flex items-center space-x-3">
+                              <div className="flex-shrink-0">
+                                <img
+                                  className="h-5 w-5 rounded-full"
+                                  src="https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
+                                  alt=""
+                                />
+                              </div>
+                              <div className="text-sm font-medium text-black">
+                                {participant}
+                              </div>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+              <div className="w-full mt-3 ml-3 fixed bg-white p-1 z-50 bottom-0 justify-center rounded md:w-full md:text-xl lg:w-1/2 lg:ml-6">
+                <div className="flex space-x-3">
+                  <div className="flex-shrink-0">
+                    <div className="relative">
+                      <img
+                        className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
+                        src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
+                        alt=""
+                      />
+
+                      <span className="absolute -bottom-0.5 -right-1 rounded-tl bg-white px-0.5 py-px">
+                        <ChatBubbleLeftEllipsisIcon
+                          className="h-5 w-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex mr-1 lg:mr-0">
+                      <label htmlFor="message" className="sr-only">
+                        Message
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={2}
+                        className="block w-10/12 rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-500 sm:text-sm"
+                        placeholder="Message"
+                        defaultValue={""}
+                      />
+                      <div className="flex p-1 items-center justify-end space-x-4">
+                        <button className="inline-flex items-center justify-center rounded-sm ml-2 border border-transparent bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2">
+                          Send
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
         </div>
       </div>
     </>

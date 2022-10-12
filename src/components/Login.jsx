@@ -22,8 +22,10 @@ export const Login = () => {
     if (users.some((person) => person.userName === user.userName)) {
       return alert("That username is already taken.");
     }
-    users.push(user);
-    sessionStorage.setItem("users", JSON.stringify(users));
+    if (users) {
+      sessionStorage.removeItem("users")
+    }
+    sessionStorage.setItem("users", JSON.stringify(user));
     navigate(`/home?user=${userName}`);
   };
   return (
