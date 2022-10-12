@@ -21,7 +21,7 @@ const navigation = [
 //   { userName: "Dennis", message: "How are you doing?", date: "22:30" },
 // ];
 
-const participants = ["Dennis", "Trevor"];
+// const participants = ["Dennis", "Trevor"];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -32,8 +32,17 @@ export const Home = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [user, setUser] = useState(null);
+  const [participants, setParticipants] = useState([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.sessionStorage.length === 0) {
+      return navigate("/");
+    }
+    setUser(JSON.parse(window.sessionStorage.users)[0].userName);
+    loadMessages();
+  }, []);
 
   useEffect(() => {
     if (window.sessionStorage.length === 0) {
@@ -52,6 +61,19 @@ export const Home = () => {
     messages.push(newMessage);
     localStorage.setItem("messages", JSON.stringify(messages));
     setMessage("");
+  };
+
+  const loadMessages = () => {
+    let chats = localStorage.getItem("messages");
+    if (chats) {
+      chats = JSON.parse(chats);
+      setMessages(chats);
+
+      const participants = [];
+      chats.forEach((chat) => participants.push(chat.userName));
+      let uniqueParticipants = [...new Set(participants)];
+      setParticipants(uniqueParticipants);
+    }
   };
 
   return (
@@ -435,6 +457,10 @@ export const Home = () => {
                         id="message"
                         name="message"
                         rows={2}
+                        value={message}
+                        onChange={(e) => {
+                          setMessage(e.target.value);
+                        }}
                         className="block w-10/12 rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-500 sm:text-sm"
                         placeholder="Message"
                         defaultValue={""}
