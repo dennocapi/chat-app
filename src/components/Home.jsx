@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 
@@ -15,67 +15,58 @@ const navigation = [
   { name: "Exit", href: "/", icon: ClockIcon, current: false },
 ];
 
-// const messages = [
-//   { userName: "Dennis", message: "Hello", date: "22:30" },
-//   { userName: "Trevor", message: "Hello..", date: "22:30" },
-//   { userName: "Dennis", message: "How are you doing?", date: "22:30" },
-// ];
-
-// const participants = ["Dennis", "Trevor"];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export const Home = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [user, setUser] = useState(null);
-  const [participants, setParticipants] = useState([]);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
+    const [user, setUser] = useState(null);
+    const [participants, setParticipants] = useState([]);
+    const navigate = useNavigate();
 
-  const navigate = useNavigate();
+    const bottomRef = useRef(null);
 
-  useEffect(() => {
-    if (window.sessionStorage.length === 0) {
-      return navigate("/");
-    }
-    setUser(JSON.parse(window.sessionStorage.users)[0].userName);
-    loadMessages();
-  }, []);
+    useEffect(() => {
+      if (window.sessionStorage.length === 0) {
+        navigate("/");
+      }
+      setUser(JSON.parse(window.sessionStorage.users)[0].userName);
+      loadMessages();
+      setInterval(loadMessages, 2000);
+    }, []);
 
-  useEffect(() => {
-    if (window.sessionStorage.length === 0) {
-      navigate("/");
-    }
-    setUser(JSON.parse(window.sessionStorage.users)[0].userName);
-  }, []);
+    useEffect(() => {
+      bottomRef.current?.scrollIntoView();
+    }, [messages]);
 
-  const onSubmit = () => {
-    const newMessage = {
-      userName: user,
-      message: message,
-      date: Date(),
+    const onSubmit = () => {
+      const newMessage = {
+        userName: user,
+        message: message,
+        date: Date(),
+      };
+
+      messages.push(newMessage);
+      localStorage.setItem("messages", JSON.stringify(messages));
+      setMessage("");
     };
 
-    messages.push(newMessage);
-    localStorage.setItem("messages", JSON.stringify(messages));
-    setMessage("");
-  };
+    const loadMessages = () => {
+      let chats = localStorage.getItem("messages");
+      if (chats) {
+        chats = JSON.parse(chats);
+        setMessages(chats);
 
-  const loadMessages = () => {
-    let chats = localStorage.getItem("messages");
-    if (chats) {
-      chats = JSON.parse(chats);
-      setMessages(chats);
-
-      const participants = [];
-      chats.forEach((chat) => participants.push(chat.userName));
-      let uniqueParticipants = [...new Set(participants)];
-      setParticipants(uniqueParticipants);
-    }
-  };
-
+        const participants = [];
+        chats.forEach((chat) => participants.push(chat.userName));
+        let uniqueParticipants = [...new Set(participants)];
+        setParticipants(uniqueParticipants);
+        bottomRef.current?.scrollIntoView();
+      }
+    };
   return (
     <>
       <div className="flex min-h-full">
@@ -244,7 +235,7 @@ export const Home = () => {
                       </div>
                       <div className="ml-3 mr-3">
                         <div className="text-base font-medium text-gray-800">
-                          Dennis Mutuma
+                          {user}
                         </div>
                       </div>
                     </div>
@@ -296,7 +287,7 @@ export const Home = () => {
                             <ul role="list" className="pb-16">
                               {messages.map((message, itemIdx) =>
                                 // todo
-                                message.userName === "Dennis" ? (
+                                message.userName === user ? (
                                   <li key={itemIdx} className="py-2">
                                     <div className="relative pb-2">
                                       {itemIdx !== messages.length - 1 ? (

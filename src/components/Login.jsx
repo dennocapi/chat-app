@@ -6,7 +6,7 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    if (userName.length < 5) {
+    if (userName.length < 3) {
       return alert("The length of the name should be more than 3 characters");
     }
     const user = {
