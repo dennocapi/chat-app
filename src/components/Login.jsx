@@ -6,7 +6,7 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    if (userName.length < 3) {
+    if (userName.length < 5) {
       return alert("The length of the name should be more than 3 characters");
     }
     const user = {
@@ -22,12 +22,11 @@ export const Login = () => {
     if (users.some((person) => person.userName === user.userName)) {
       return alert("That username is already taken.");
     }
-    if (users) {
-      sessionStorage.removeItem("users")
-    }
-    sessionStorage.setItem("users", JSON.stringify(user));
+    users.push(user);
+    sessionStorage.setItem("users", JSON.stringify(users));
     navigate(`/home?user=${userName}`);
   };
+
   return (
     <>
       <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
