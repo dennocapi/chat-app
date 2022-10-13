@@ -5,13 +5,10 @@ import {
   Bars3BottomLeftIcon,
   ClockIcon,
   HomeIcon,
-  UserCircleIcon as UserCircleIconOutline,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChatBubbleLeftEllipsisIcon,
-  CheckCircleIcon,
-  UserCircleIcon as UserCircleIconMini,
 } from "@heroicons/react/20/solid";
 
 const navigation = [
@@ -174,7 +171,7 @@ export const Home = () => {
 
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
+          {/* Sidebar component */}
           <div className="flex min-h-0 flex-1 flex-col">
             <div className="flex h-16 flex-shrink-0 items-center bg-gray-900 px-4">
               <div className="text-lg font-bold text-white">Connect!</div>
@@ -233,7 +230,7 @@ export const Home = () => {
                           <span className="sr-only">Open user menu</span>
                           <img
                             className="h-8 w-8 rounded-full"
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                             alt=""
                           />
                         </Menu.Button>
@@ -412,7 +409,7 @@ export const Home = () => {
                               <div className="flex-shrink-0">
                                 <img
                                   className="h-5 w-5 rounded-full"
-                                  src="https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
+                                  src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                                   alt=""
                                 />
                               </div>
@@ -433,7 +430,7 @@ export const Home = () => {
                     <div className="relative">
                       <img
                         className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400 ring-8 ring-white"
-                        src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
+                        src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                         alt=""
                       />
 
