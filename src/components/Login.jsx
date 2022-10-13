@@ -1,6 +1,32 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
+
+  const onSubmit = () => {
+    if (userName.length < 5) {
+      return alert("The length of the name should be more than 3 characters");
+    }
+    const user = {
+      userName: userName,
+    };
+    const users = JSON.parse(sessionStorage.getItem("users"));
+    if (!users) {
+      const users = [user];
+      sessionStorage.setItem("users", JSON.stringify(users));
+      navigate(`/home?user=${userName}`);
+    }
+
+    if (users.some((person) => person.userName === user.userName)) {
+      return alert("That username is already taken.");
+    }
+    users.push(user);
+    sessionStorage.setItem("users", JSON.stringify(users));
+    navigate(`/home?user=${userName}`);
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -25,6 +51,10 @@ export const Login = () => {
                     id="username"
                     name="username"
                     type="text"
+                    value={userName}
+                    onChange={(e) => {
+                      setUserName(e.target.value);
+                    }}
                     placeholder="Username"
                     autoComplete="username"
                     required
@@ -37,6 +67,7 @@ export const Login = () => {
                 <button
                   type="submit"
                   className="flex w-full justify-center rounded-md border border-transparent bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  onClick={onSubmit}
                 >
                   Join
                 </button>
@@ -47,4 +78,4 @@ export const Login = () => {
       </div>
     </>
   );
-}
+};
