@@ -7,9 +7,7 @@ import {
   HomeIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-  ChatBubbleLeftEllipsisIcon,
-} from "@heroicons/react/20/solid";
+import { ChatBubbleLeftEllipsisIcon } from "@heroicons/react/20/solid";
 
 const navigation = [
   { name: "Home", href: "/home", icon: HomeIcon, current: true },
