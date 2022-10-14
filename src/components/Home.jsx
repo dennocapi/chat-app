@@ -25,24 +25,29 @@ export const Home = () => {
   const [messages, setMessages] = useState([]);
   const [user, setUser] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const [scroll, setScroll] = useState(false);
+  const [loadMessage, setLoadMessage] = useState(false)
+
   const navigate = useNavigate();
 
   const bottomRef = useRef(null);
+
+  useEffect(() => {
+    setInterval(loadMessages, 2000)
+  }, []);
 
   useEffect(() => {
     if (window.sessionStorage.length === 0) {
       navigate("/");
     }
     setUser(JSON.parse(window.sessionStorage.users)[0].userName);
-    loadMessages();
-  }, [messages]);
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView();
-  }, [messages]);
+  }, [scroll, loadMessage]);
 
   const onSubmit = () => {
-
     const newMessage = {
       userName: user,
       message: message,
@@ -52,10 +57,12 @@ export const Home = () => {
     messages.push(newMessage);
     localStorage.setItem("messages", JSON.stringify(messages));
     setMessage("");
+    setLoadMessage(!loadMessage)
   };
 
   const loadMessages = () => {
     let chats = localStorage.getItem("messages");
+
     if (chats) {
       chats = JSON.parse(chats);
       setMessages(chats);
@@ -64,6 +71,7 @@ export const Home = () => {
       chats.forEach((chat) => participants.push(chat.userName));
       let uniqueParticipants = [...new Set(participants)];
       setParticipants(uniqueParticipants);
+      setScroll(true);
     }
   };
 
