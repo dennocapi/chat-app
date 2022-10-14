@@ -219,7 +219,7 @@ export const Home = () => {
             <div className="flex flex-1 justify-between px-4">
               <div className="flex flex-1"></div>
               <div className="ml-4 flex items-center lg:ml-6">
-                <div className="hidden lg:ml-4 lg:flex lg:items-center">
+                <div className="lg:ml-4 lg:flex lg:items-center">
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div className="flex">
@@ -422,7 +422,7 @@ export const Home = () => {
                   </div>
                 </aside>
               </div>
-              <div className="w-full mt-3 ml-3 fixed bg-white p-1 z-50 bottom-0 justify-center rounded md:w-full md:text-xl lg:w-1/2 lg:ml-6">
+              <div className="w-full mt-3 ml-3 fixed bg-white p-1 z-10 bottom-0 justify-center rounded md:w-full md:text-xl lg:w-1/2 lg:ml-6">
                 <div className="flex space-x-3">
                   <div className="flex-shrink-0">
                     <div className="relative">
