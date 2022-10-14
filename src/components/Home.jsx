@@ -1,6 +1,7 @@
 import { Fragment, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, Menu, Transition } from "@headlessui/react";
+import moment from "moment";
 import {
   Bars3BottomLeftIcon,
   ClockIcon,
@@ -324,12 +325,14 @@ export const Home = () => {
                                               </div>
                                             </div>
                                           </div>
-                                          <div className="relative text-md mt-2 p-4 max-w-full mr-2 lg:mr-0 lg:max-w-md rounded-lg min-w-fit text-gray-700 bg-blue-200">
-                                            <div className="pb-2 break-all">
+                                          <div className="relative text-md mt-2  p-4 max-w-full mr-2 lg:mr-0 lg:max-w-md rounded-lg min-w-fit text-gray-700 bg-blue-200">
+                                            <div className="pb-5 break-all">
                                               {message.message}
                                             </div>
                                             <div className="absolute text-xs p-1 bottom-0 right-0 text-gray-500 ">
-                                              2230 hrs
+                                              {moment(message.date)
+                                                .startOf()
+                                                .fromNow()}
                                             </div>
                                           </div>
                                         </div>
@@ -375,7 +378,9 @@ export const Home = () => {
                                               {message.message}
                                             </div>
                                             <div className="absolute text-xs p-1 bottom-0 right-0 text-gray-500 ">
-                                              2230 hrs
+                                              {moment(message.date)
+                                                .startOf()
+                                                .fromNow()}
                                             </div>
                                           </div>
                                         </div>
@@ -422,7 +427,7 @@ export const Home = () => {
                   </div>
                 </aside>
               </div>
-              <div className="w-full mt-3 ml-3 fixed bg-white p-1 z-10 bottom-0 justify-center rounded md:w-full md:text-xl lg:w-1/2 lg:ml-6">
+              <div className="w-full mt-3 ml-3 fixed bg-white p-1 z-0 bottom-0 justify-center rounded md:w-full md:text-xl lg:w-1/2 lg:ml-6">
                 <div className="flex space-x-3">
                   <div className="flex-shrink-0">
                     <div className="relative">
