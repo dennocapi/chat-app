@@ -25,22 +25,27 @@ export const Home = () => {
   const [messages, setMessages] = useState([]);
   const [user, setUser] = useState(null);
   const [participants, setParticipants] = useState([]);
+  const [scroll, setScroll] = useState(false);
+  const [loadMessage, setLoadMessage] = useState(false)
+
   const navigate = useNavigate();
 
   const bottomRef = useRef(null);
+
+  useEffect(() => {
+    setInterval(loadMessages, 2000)
+  }, []);
 
   useEffect(() => {
     if (window.sessionStorage.length === 0) {
       navigate("/");
     }
     setUser(JSON.parse(window.sessionStorage.users)[0].userName);
-    loadMessages();
-    setInterval(loadMessages, 2000);
   }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView();
-  }, [messages]);
+  }, [scroll, loadMessage]);
 
   const onSubmit = () => {
     const newMessage = {
@@ -52,10 +57,12 @@ export const Home = () => {
     messages.push(newMessage);
     localStorage.setItem("messages", JSON.stringify(messages));
     setMessage("");
+    setLoadMessage(!loadMessage)
   };
 
   const loadMessages = () => {
     let chats = localStorage.getItem("messages");
+
     if (chats) {
       chats = JSON.parse(chats);
       setMessages(chats);
@@ -64,7 +71,7 @@ export const Home = () => {
       chats.forEach((chat) => participants.push(chat.userName));
       let uniqueParticipants = [...new Set(participants)];
       setParticipants(uniqueParticipants);
-      bottomRef.current?.scrollIntoView();
+      setScroll(true);
     }
   };
 
@@ -325,14 +332,16 @@ export const Home = () => {
                                               </div>
                                             </div>
                                           </div>
-                                          <div className="relative text-md mt-2  p-4 max-w-full mr-2 lg:mr-0 lg:max-w-md rounded-lg min-w-fit text-gray-700 bg-blue-200">
-                                            <div className="pb-5 break-all">
+                                          <div className="text-md mt-2 p-4 max-w-full mr-2 lg:mr-0 lg:max-w-md rounded-lg text-gray-700 bg-blue-200">
+                                            <div className="pb-1 break-all">
                                               {message.message}
                                             </div>
-                                            <div className="absolute text-xs p-1 bottom-0 right-0 text-gray-500 ">
-                                              {moment(message.date)
-                                                .startOf()
-                                                .fromNow()}
+                                            <div className="flex flex-row-reverse">
+                                              <div className="text-xs text-gray-500 ">
+                                                {moment(message.date)
+                                                  .startOf()
+                                                  .fromNow()}
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
@@ -373,14 +382,16 @@ export const Home = () => {
                                               <div> {message.userName}</div>
                                             </div>
                                           </div>
-                                          <div className="relative text-md mt-2 p-4 max-w-full mr-2 lg:mr-0 lg:max-w-md rounded-lg min-w-fit text-gray-700 bg-gray-200">
-                                            <div className="pb-2 break-all">
+                                          <div className="text-md mt-2 p-4 max-w-full mr-2 lg:mr-0 lg:max-w-md rounded-lg text-gray-700 bg-gray-200">
+                                            <div className="pb-1 break-all">
                                               {message.message}
                                             </div>
-                                            <div className="absolute text-xs p-1 bottom-0 right-0 text-gray-500 ">
-                                              {moment(message.date)
-                                                .startOf()
-                                                .fromNow()}
+                                            <div className="flex flex-row-reverse">
+                                              <div className="text-xs p-1 text-gray-500 ">
+                                                {moment(message.date)
+                                                  .startOf()
+                                                  .fromNow()}
+                                              </div>
                                             </div>
                                           </div>
                                         </div>
