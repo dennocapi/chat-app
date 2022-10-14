@@ -1,13 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Notification } from "./Notification";
 
 export const Login = () => {
   const [userName, setUserName] = useState("");
+  const [notification, setNotification] = useState({
+    status: false,
+    title: "",
+    message: "",
+  });
   const navigate = useNavigate();
 
   const onSubmit = () => {
-    if (userName.length < 5) {
-      return alert("The length of the name should be more than 3 characters");
+    if (userName.length < 3) {
+      return setNotification({
+        status: true,
+        title: "error",
+        message: "Your username should be more than 3 characters.",
+      });
     }
     const user = {
       userName: userName,
@@ -20,7 +30,11 @@ export const Login = () => {
     }
 
     if (users.some((person) => person.userName === user.userName)) {
-      return alert("That username is already taken.");
+      return setNotification({
+        status: true,
+        title: "error",
+        message: "That username is already taken.",
+      });
     }
     users.push(user);
     sessionStorage.setItem("users", JSON.stringify(users));
@@ -35,10 +49,18 @@ export const Login = () => {
             Connect!
           </h2>
         </div>
+        <div>
+          {notification.status ? (
+            <Notification
+              title={notification.title}
+              message={notification.message}
+            />
+          ) : null}
+        </div>
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form className="space-y-6">
+            <div className="space-y-6">
               <div>
                 <label
                   htmlFor="email"
@@ -72,7 +94,7 @@ export const Login = () => {
                   Join
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
